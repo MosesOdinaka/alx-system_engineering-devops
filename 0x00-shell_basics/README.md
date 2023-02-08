@@ -1,1 +1,1 @@
-DISCRIPTION OF WHAT THE SCRIPT IS DOING
+Current working directory
