@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# This script displays the current Bash process PID
-
-output=$(pgrep -f bash)
-
-while read -r line; do
-	echo "$line $(ps -p "$line" -o comm=)"
-done <<< "$output"
+# This script displays lines containing the word "bash"
+# shellcheck disable=SC2009
+ps aux | grep bash
