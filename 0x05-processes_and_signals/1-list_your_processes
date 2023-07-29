@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Displays a list of currently running processes in a user oriented format.
+
+output_pid=$(ps axo user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,command)
+
+echo "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND"
+echo "$output_pid" | while read -r line
+do
+    if [[ $line != *PID* && $line != *ps* ]]; then
+        tabs=$(echo -e "$line" | awk '{ print gsub(/\t/, "") }')
+        prefix=""
+        for ((i=0; i<tabs; i++)); do
+            prefix=$prefix"  |"
+        done
+        echo "$prefix-- $line"
+    fi
+done
