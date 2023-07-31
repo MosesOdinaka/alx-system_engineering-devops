@@ -6,7 +6,7 @@ if [ -e $file ];
 then
 	echo "school file exists"
 else
-	echo "school file does not exists"
+	echo "school file does not exist"
 	exit 1
 fi
 
