@@ -8,6 +8,6 @@ end
 input = ARGV[0]
 pattern = /^h.n$/
 
-if imput.match(pattern)
+if input.match(pattern)
   puts input
 end
