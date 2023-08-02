@@ -6,7 +6,7 @@ if ARGV.length != 1
 end
 
 input = ARGV[0]
-pattern = /^\\d{10}$/
+pattern = /^\d{10,10}$/
 
 if input.match(pattern)
   puts input
