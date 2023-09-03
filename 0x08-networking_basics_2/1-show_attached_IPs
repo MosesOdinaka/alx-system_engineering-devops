@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-# Displays all active IPv4 IPs on the machine it's executed on
-
-ip -4 addr show | while read line; do
-    if [[ $line =~ inet ]]; then
-        ip=$(echo $line | cut -d ' ' -f 6 | cut -d '/' -f 1)
-        echo "$ip"
-    fi
-done
