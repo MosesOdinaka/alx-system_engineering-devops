@@ -3,10 +3,10 @@
 if ARGV.length != 1
     puts "Usage: #{$0} <string>"
     exit
-  end
+end
   
-  input = ARGV[0]
-  pattern = /School/
+input = ARGV[0]
+pattern = /School/
   
-  matches = input.scan(pattern)
-  puts matches.join
+matches = input.scan(pattern)
+puts matches.join
