@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Opens the ssh client config file in a text editor
+
+vi ~/.ssh/config
