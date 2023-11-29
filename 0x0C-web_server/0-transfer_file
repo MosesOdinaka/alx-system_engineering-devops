@@ -1,25 +1,21 @@
 #!/usr/bin/env bash
-
 # Checking for parameters
 if [ $# -lt 4 ]
 then
-    echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
-    exit 1
+        echo "Usage: 0-transfer_file PATH_TO_FILE IP USERNAME PATH_TO_SSH_KEY"
+        exit 1
 fi
 
 # allocation of parameters to variables
 filePath=$1
-ipAddress=$2
-userName=$3
+ip=$2
+username=$3
 shhPrivateKeyPath=$4
 
 # to disable strict host key check
-scp -o "StrictHostKeyChecking=no" -i "$shhPrivateKeyPath" "$filePath" "$userName@$ipAddress:~/"
-
-# check if file transfer was a success
-if [ $? -ne 0 ]
+if scp -o "StrictHostKeyChecking=no" -i "$shhPrivateKeyPath" "$filePath" "$username@$ip:~/"
 then
-    echo "FILE TRANSTER FAILED"
+        echo "FILE TRANSFERRED"
 else
-    echo "FILE TRANSFERED"
+        echo "FILE TRANSFER FAILED"
 fi
