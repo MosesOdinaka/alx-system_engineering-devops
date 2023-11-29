@@ -14,9 +14,12 @@ userName=$3
 shhPrivateKeyPath=$4
 
 # to disable strict host key check
-if scp -o "StrictHostKeyChecking=no" -i "$shhPrivateKeyPath" "$filePath" "$userName@$ipAddress:~/"
+scp -o "StrictHostKeyChecking=no" -i "$shhPrivateKeyPath" "$filePath" "$userName@$ipAddress:~/"
+
+# check if file transfer was a success
+if [ $? -ne 0 ]
 then
-    echo "FILE TRANSFERRED"
+    echo "FILE TRANSTER FAILED"
 else
-    echo "FILE TRANSFER FAILED"
+    echo "FILE TRANSFERED"
 fi
