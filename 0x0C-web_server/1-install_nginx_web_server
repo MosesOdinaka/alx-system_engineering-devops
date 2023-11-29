@@ -1,10 +1,29 @@
 #!/usr/bin/env bash
-# shell commands steps for the installation of nginx
-sudo apt-get update
-sudo apt-get install nginx
-#sudo ufw "Nginx HTTP"
 
-echo "Hello World!" | sudo tee /var/www/html/index.html
+# Update your local node's package lists
+sudo apt-get update -y
 
-sudo nginx -t
-sudo service nginx reload
+# Install nginx
+sudo apt-get install -y nginx
+
+# Start nginx
+sudo service nginx start
+
+# Create a new default site configuration with "Hello World!"
+echo "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    root /var/www/html;
+    index index.html;
+
+    server_name _;
+
+    location / {
+        return 200 'Hello World!';
+        add_header Content-Type text/plain;
+    }
+}" | sudo tee /etc/nginx/sites-available/default
+
+# Restart nginx to apply the changes
+sudo service nginx restart
