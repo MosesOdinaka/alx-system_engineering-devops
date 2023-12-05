@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# login
+
+# setting up SSH-agent
+eval $("ssh-agent")
+
+# path to file
+ssh-add ~/.ssh/school
+
+# IP and username
+ssh ubuntu@54.152.181.173
