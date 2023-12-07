@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
 service nginx stop
 service nginx start
