@@ -3,5 +3,8 @@
 apt-get -y update
 apt-get -y install nginx
 echo "Hello World!" > /var/www/html/index.html
-sed -i "s/server_name _;/server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/MosesOdinaka permanent;/" /etc/nginx/sites-available/default
-service nginx start
+redirect="\n\tlocation /redirect_me {\n\t\treturn 301 https://www.github.com/MosesOdinaka;\n\t}\n"
+
+sudo sed -i "53s|.*|$redirect|" /etc/nginx/sites-enabled/default
+
+sudo /etc/init.d/nginx restart
