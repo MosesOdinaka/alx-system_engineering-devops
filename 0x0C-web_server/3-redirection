@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Script that installs Nginx server and redirects.
 apt-get -y update
 apt-get -y install nginx
