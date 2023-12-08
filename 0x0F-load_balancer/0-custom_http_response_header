@@ -1,41 +1,45 @@
 #!/usr/bin/env bash
-# Customizing a 404-error_page
+# Define the Nginx configuration with the custom header
 
-# Updating Packages before performing installations
-sudo apt-get update
-sudo apt-get install -y nginx
+sudo apt-get update -y
 
-# Creating an index.html page
-echo "Hello World!" | sudo tee /var/www/html/index.html
+sudo apt-get install nginx -y
 
-# Performing a "moved permanently redirection" (301)
-new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/MosesOdinaka permanent;"
-sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
+echo "Hello World!" | sudo dd status=none of=/var/www/html/index.html
 
-# Creating a 404 Custom error page
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-new_string="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html > /dev/null
 
-sudo sed -i "s/listen 80 default_server;/$new_string/" /etc/nginx/sites-enabled/default
+NEW_RULE="\\\n\tlocation /redirect_me {\n\t\t return 301 https://www.github.com/MosesOdinaka;\n\t}\n"
 
-# Creating an HTTP response header
-sudo sed -i "/server_name _/a add_header X-Served-By $HOSTNAME;" /etc/nginx/sites-enabled/default
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.backup
 
-# Testing configurations for syntax errors
+sudo sed -i "53i $NEW_RULE" /etc/nginx/sites-available/default
+
+NEW_RULE="\\\n\terror_page 404 /404.html;\n\n\tlocation = /404.html {\n\t\tinternal;\n\t}\n"
+
+sudo sed -i "53i $NEW_RULE" /etc/nginx/sites-available/default
+
+# Define the Nginx configuration with the custom header
+config='server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+
+    location / {
+        add_header X-Served-By $hostname;
+        try_files $uri $uri/ =404;
+    }
+}'
+
+# Write the configuration to the default file
+echo "$config" | sudo tee /etc/nginx/sites-available/default
+
+# Test the configuration
 sudo nginx -t
 
-# Restart nginx after implementing changes
-sudo service nginx restart
-#!/usr/bin/env bash
-# Customizing a 404-error_page
-
-# Updating Packages before performing installations
-sudo apt-get update
-sudo apt-get install -y nginx
-
-# Creating an index.html page
-echo "Hello World!" | sudo tee /var/www/html/index.html
-
-# Performing a "moved permanently redirection" (301)
-new_string="server_name _;\n\trewrite ^\/redirect_me https:\/\/github.com\/MosesOdinaka permanent;"
-sudo sed -i "s/server_name _;/$new_string/" /etc/nginx/sites-enabled/default
+# If the test is successful, reload Nginx
+if [ $? -eq 0 ]
+then
+    sudo systemctl reload nginx
+else
+    echo "Nginx configuration test failed"
+fi
