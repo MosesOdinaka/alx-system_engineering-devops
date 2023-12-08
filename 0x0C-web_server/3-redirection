@@ -5,10 +5,10 @@ sudo apt-get -y install nginx
 echo "Hello World!" | sudo tee /var/www/html/index.html
 
 # Define the redirect rule
-redirect="\n\tlocation /redirect_me {\n\t\treturn 301 https://github.com/MosesOdinaka;\n\t}\n"
+location="\\\n\tlocation = /redirect_me {\n\t\t return 301 https://www.github.com/MosesOdinaka;\n\t}\n"
 
-# Use awk to insert the redirect rule into the server block
-sudo awk -v r="$redirect" '/server {/ { print; print r; next }1' /etc/nginx/sites-available/default | sudo tee /etc/nginx/sites-available/default
+# insert the redirect rule into the server block
+sudo sed -i "14i $location" /etc/nginx/sites-available/default
 
 # Restart Nginx to apply the changes
 sudo systemctl restart nginx
