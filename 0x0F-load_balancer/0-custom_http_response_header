@@ -19,19 +19,10 @@ NEW_RULE="\\\n\terror_page 404 /404.html;\n\n\tlocation = /404.html {\n\t\tinter
 
 sudo sed -i "53i $NEW_RULE" /etc/nginx/sites-available/default
 
-# Define the Nginx configuration with the custom header
-config='server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
+hostname=$(hostname)
+NEW_RULE="\\\tadd_header X-Served-By $hostname;"
 
-    location / {
-        add_header X-Served-By $hostname;
-        try_files $uri $uri/ =404;
-    }
-}'
-
-# Write the configuration to the default file
-echo "$config" | sudo tee /etc/nginx/sites-available/default
+sudo sed -i "44i $NEW_RULE" /etc/nginx/sites-available/default
 
 # Test the configuration
 sudo nginx -t
