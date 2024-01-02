@@ -1,20 +1,16 @@
 #!/usr/bin/python3
-"""
-This script uses the provided REST API to fetch the TODO list progress 
-for a specified employee ID.
-"""
-import requests
+"""script using this REST API, for a given employee ID,
+returns information about his/her TODO list progress."""
+import requests as r
 import sys
 
 if __name__ == '__main__':
-    base_url = 'https://jsonplaceholder.typicode.com/'
-    user_id = sys.argv[1]
-    
-    user_data = requests.get(f'{base_url}users/{user_id}').json()
-    todo_data = requests.get(f'{base_url}todos', params={'userId': user_id}).json()
-    
-    completed_tasks = [task["title"] for task in todo_data if task['completed']]
-    
-    print(f"Employee {user_data.get('name')} is done with tasks({len(completed_tasks)}/{len(todo_data)}):")
-    for task in completed_tasks:
-        print(f"\t {task}")
+    url = 'https://jsonplaceholder.typicode.com/'
+    usr_id = r.get(url + 'users/{}'.format(sys.argv[1])).json()
+    to_do = r.get(url + 'todos', params={'userId': sys.argv[1]}).json()
+    completed = [title.get("title") for title in to_do if
+                 title.get('completed') is True]
+    print("Employee {} is done with tasks({}/{}):".format(usr_id.get("name"),
+                                                          len(completed),
+                                                          len(to_do)))
+    [print("\t {}".format(title)) for title in completed]
