@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This script uses the provided REST API to fetch the TODO list progress 
+This script uses the provided REST API to fetch the TODO list progress
 for all employees and exports the data in JSON format.
 """
 import json
