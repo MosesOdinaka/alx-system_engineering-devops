@@ -17,7 +17,7 @@ def top_ten(subreddit):
         return
 
     reddit_url = "http://www.reddit.com/r/{}/hot.json".format(subreddit)
-    request_headers = {'User-Agent': 'Ajiboye Adeleye/ALX-Api-Advanced'}
+    request_headers = {'User-Agent': 'Iriele Moses/ALX-Api-Advanced'}
     request_params = {'limit': 10}
 
     try:
