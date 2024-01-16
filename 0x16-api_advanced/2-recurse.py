@@ -1,30 +1,40 @@
 #!/usr/bin/python3
+"""
+This module contains a recursive function that interacts with the Reddit API.
+It returns a list of titles for all hot articles from a specified subreddit.
+"""
 
-import requests as req
+import requests
 
-
-def recurse(subreddit_name, post_titles=[], next_page=""):
+def recurse(subreddit_name, hot_titles=[], after_token=""):
     """
-    This function recursively fetches the titles of hot posts for a
-    given subreddit. If the subreddit does not exist, it returns None.
+    Queries the Reddit API and fetches the titles of all hot articles from a
+    specified subreddit. If the subreddit name is not a string or is None,
+    it returns None.
     """
-    reddit_url = "http://www.reddit.com/r/{}/hot.json".format(subreddit_name)
-    user_agent_header = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:73.0) \
-        Gecko/20100101 Firfox/73.0"
-    }
-    pagination_param = {
-        "after": next_page,
-        "limit": 100,
-    }
-    response_obj = req.get(reddit_url, headers=user_agent_header,
-                           params=pagination_param, allow_redirects=False)
-    if response_obj.status_code == 404:
+    if subreddit_name is None or not isinstance(subreddit_name, str):
         return None
-    else:
-        post_data = responde_obj.json().get("data").get("children")
-        post_titles += [post.get("data").get("title") for post in post_data]
-        next_page = response_obj.json().get("data").get("after")
-        if next_page is not None:
-            recurse(subreddit_name, post_titles, next_page)
-        return post_titles
+
+    reddit_url = 'http://www.reddit.com/r/{}/hot.json'.format(subreddit_name)
+    request_headers = {'User-Agent': 'ALX-advanced_APIi/by Iriele Moses'}
+    request_params = {
+            'after': after_token,
+            'limit': 100
+            }
+
+    response = requests.get(reddit_url, headers=request_headers, params=request_params,
+                            allow_redirects=True)
+
+    if response.status_code == 404:
+        return None
+
+    response_data = response.json().get('data')
+    after_token = response_data.get('after')
+
+    for post in response_data.get('children'):
+        hot_titles.append(post.get('data').get('title'))
+
+    if after_token is not None:
+        return recurse(subreddit_name, hot_titles, after_token)
+    
+    return hot_titles
