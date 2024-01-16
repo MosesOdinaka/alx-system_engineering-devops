@@ -3,13 +3,13 @@
 import requests as req
 
 
-def number_of_subscribers(subreddit_name):
+def number_of_subscribers(subreddit):
     """
     This function returns the number of subscribers for a given subreddit.
     If the subreddit does not exist, it returns 0.
     """
     reddit_url = "https://www.reddit.com/r/{}/about.json"
-    .format(subreddit_name)
+    .format(subreddit)
     headers_dict = {
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:73.0) \
         Gecko/20100101 Firefox/73.0"
