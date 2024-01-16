@@ -6,7 +6,8 @@ the number of subscribers for a specific subreddit.
 
 import requests
 
-def number_of_subscribers(subreddit_name):
+
+def number_of_subscribers(subreddit):
     """
     Fetches and returns the number of subscribers for a specified subreddit.
     If the subreddit name is not a string or is None, it returns 0.
@@ -16,7 +17,7 @@ def number_of_subscribers(subreddit_name):
 
     reddit_url = 'http://www.reddit.com/r/{}/about.json'.format(subreddit_name)
     request_headers = {
-        'User-Agent': '0x16-api_advanced:project:v1.0.0 (by /u/Ajiboye Adeleye Pius)'
+        'User-Agent': '0x16-api_advanced:project:v1.0.0 (by /u/Iriele Odinaka)'
     }
 
     response = requests.get(reddit_url, headers=request_headers).json()
