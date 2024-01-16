@@ -12,10 +12,10 @@ def number_of_subscribers(subreddit):
     Fetches and returns the number of subscribers for a specified subreddit.
     If the subreddit name is not a string or is None, it returns 0.
     """
-    if subreddit_name is None or not isinstance(subreddit_name, str):
+    if subreddit is None or not isinstance(subreddit, str):
         return 0
 
-    reddit_url = 'http://www.reddit.com/r/{}/about.json'.format(subreddit_name)
+    reddit_url = 'http://www.reddit.com/r/{}/about.json'.format(subreddit)
     request_headers = {
         'User-Agent': '0x16-api_advanced:project:v1.0.0 (by /u/Iriele Odinaka)'
     }
