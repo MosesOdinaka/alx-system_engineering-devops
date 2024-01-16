@@ -6,10 +6,11 @@ specified subreddit using the Reddit API.
 
 import requests
 
+
 def top_ten(subreddit):
     """
     Fetches and prints the titles of the top 10 hot posts from a specified
-    subreddit. If the subreddit name is not a string or is None, it prints None.
+    subreddit. If the subreddit name is not a string or is None.
     """
     if subreddit is None or not isinstance(subreddit, str):
         print(None)
@@ -20,7 +21,8 @@ def top_ten(subreddit):
     request_params = {'limit': 10}
 
     try:
-        response = requests.get(reddit_url, headers=request_headers, params=request_params)
+        response = requests.get(reddit_url, headers=request_headers,
+                                params=request_params)
         response_data = response.json().get('data')
 
         for post in response_data.get('children'):
