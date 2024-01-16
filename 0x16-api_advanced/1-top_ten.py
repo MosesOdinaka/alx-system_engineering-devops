@@ -1,26 +1,29 @@
 #!/usr/bin/python3
+"""
+This module fetches and prints the titles of the top 10 hot posts from a
+specified subreddit using the Reddit API.
+"""
 
-import requests as req
-
+import requests
 
 def top_ten(subreddit):
     """
-    This function prints the titles of the top 10 posts for a given
-    subreddit. If the sudreddit does not exist, it prints "None".
+    Fetches and prints the titles of the top 10 hot posts from a specified
+    subreddit. If the subreddit name is not a string or is None, it prints None.
     """
-    reddit_url = "http://www.reddit.com/r/{}/hot/.json".format(subreddit)
-    user_agent_header = {
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64; rv:73.0) \
-        Gecko/20100101 Firefox/73.0"
-    }
-    limit_param = {
-        "limit": 10
-    }
-    response_obj = req.get(reddit_url, headers=user_agent_header,
-                           params=limit_param, allow_redirects=False)
-    if response_obj.status_code == 404:
-        print("None")
+    if subreddit is None or not isinstance(subreddit, str):
+        print(None)
         return
-    subreddit_posts = response_obj.json().get("data")
-    for post in subreddit_posts.get("children"):
-        print(post.get("data").get("title"))
+
+    reddit_url = "http://www.reddit.com/r/{}/hot.json".format(subreddit)
+    request_headers = {'User-Agent': 'Ajiboye Adeleye/ALX-Api-Advanced'}
+    request_params = {'limit': 10}
+
+    try:
+        response = requests.get(reddit_url, headers=request_headers, params=request_params)
+        response_data = response.json().get('data')
+
+        for post in response_data.get('children'):
+            print(post.get('data').get('title'))
+    except Exception:
+        print(None)
