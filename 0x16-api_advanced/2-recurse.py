@@ -22,7 +22,8 @@ def recurse(subreddit_name, hot_titles=[], after_token=""):
             'limit': 100
             }
 
-    response = requests.get(reddit_url, headers=request_headers, params=request_params,
+    response = requests.get(reddit_url, headers=request_headers,
+                            params=request_params,
                             allow_redirects=True)
 
     if response.status_code == 404:
